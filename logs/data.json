@@ -1,0 +1,150 @@
+[
+  {
+    "id": "PokeVis-A",
+    "MouseEnter": [
+      {
+        "date": 1491839440025,
+        "x": 540,
+        "y": 297,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "Scatterplot",
+        "target": "null",
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839440026,
+        "x": 540,
+        "y": 297,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "Scatterplot",
+        "target": "440",
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839441397,
+        "x": 412,
+        "y": 145,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "BarChart",
+        "target": "null",
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839441431,
+        "x": 368,
+        "y": 133,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "BarChart",
+        "target": 6,
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839441723,
+        "x": 326,
+        "y": 132,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "BarChart",
+        "target": 5,
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839441862,
+        "x": 259,
+        "y": 242,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "Starplot",
+        "target": "null",
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839442192,
+        "x": 261,
+        "y": 183,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "BarChart",
+        "target": "null",
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839442208,
+        "x": 273,
+        "y": 165,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "BarChart",
+        "target": 4,
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839442226,
+        "x": 278,
+        "y": 147,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "BarChart",
+        "target": 5,
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839442441,
+        "x": 271,
+        "y": 228,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "Starplot",
+        "target": "null",
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839442742,
+        "x": 248,
+        "y": 172,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "BarChart",
+        "target": "null",
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839442758,
+        "x": 250,
+        "y": 152,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "BarChart",
+        "target": 4,
+        "selectedPokemon": null,
+        "filters": {}
+      },
+      {
+        "date": 1491839442997,
+        "x": 253,
+        "y": 255,
+        "yAxis": "Defense",
+        "xAxis": "Attack",
+        "aoi": "Starplot",
+        "target": "null",
+        "selectedPokemon": null,
+        "filters": {}
+      }
+    ]
+  }
+]
