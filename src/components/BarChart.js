@@ -184,7 +184,7 @@ BarChart.defaultProps = {
     bottom: 50,
     right: 45
   },
-  autoWidth: true,
+  autoWidth: false,
   width: 640,
   height: 220,
   onClick: () => {},
@@ -192,7 +192,7 @@ BarChart.defaultProps = {
   xLabel: '',
   yLabel: '',
   xAccessor: 'key',
-  tooltip: true,
+  tooltip: false,
   selected: []
 }
 

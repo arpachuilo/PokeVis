@@ -237,7 +237,7 @@ class GridView extends React.Component {
           <div className='four columns'>
             <div className='row'>
               <div id='BarChart' onMouseEnter={this.divMouseEnter}>
-                <BarChart
+                <BarChart autoWidth tooltip height={300}
                   data={this.props.pokemon}
                   selected={this.props.filters.Generation}
                   onClick={this.addGenerationFilter}
@@ -249,7 +249,8 @@ class GridView extends React.Component {
             </div>
             <div className='row'>
               <div id='Starplot' onMouseEnter={this.divMouseEnter}>
-                <Starplot autoWidth
+                <Starplot autoWidth tooltip includeLabels includeGuidelines
+                  height={500}
                   onMouseEnter={this.starplotMouseEnter}
                   datum={this.state.selectedPokemon}
                   labels={Object.keys(this.props.scales)}
@@ -259,14 +260,16 @@ class GridView extends React.Component {
           </div>
           <div className='eight columns'>
             <div id='Scatterplot' className='row' onMouseEnter={this.divMouseEnter}>
-              <Scatterplot autoWidth tooltip
+              <Scatterplot autoWidth tooltip height={900}
                 onClick={this.setPokemon}
                 onMouseEnter={this.scatterMouseEnter}
                 data={this.props.filteredPokemon}
                 idAccessor='Name'
                 xAccessor={this.state.xAxisValue}
+                xDomain={this.props.scales[this.state.xAxisValue].domain()}
                 xLabel={this.state.xAxisValue}
                 yAccessor={this.state.yAxisValue}
+                yDomain={this.props.scales[this.state.yAxisValue].domain()}
                 yLabel={this.state.yAxisValue} />
             </div>
             <div className='row'>

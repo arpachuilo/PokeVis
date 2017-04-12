@@ -72,20 +72,30 @@ class Scatterplot extends React.Component {
   }
 
   updateChart (props, state) {
-    let xMax = d3.max(props.data, (d) => {
-      return +d[props.xAccessor]
-    })
+    let xDomain = [0, 1]
+    if (props.xDomain) {
+      xDomain = props.xDomain
+    } else {
+      xDomain[1] = d3.max(props.data, (d) => {
+        return +d[props.xAccessor]
+      })
+    }
 
-    let yMax = d3.max(props.data, (d) => {
-      return +d[props.yAccessor]
-    })
+    let yDomain = [0, 1]
+    if (props.yDomain) {
+      yDomain = props.yDomain
+    } else {
+      yDomain[1] = d3.max(props.data, (d) => {
+        return +d[props.yAccessor]
+      })
+    }
 
     this.xScale = d3.scaleLinear()
-      .domain([0, xMax])
+      .domain(xDomain)
       .range([0, this.chartWidth])
 
     this.yScale = d3.scaleLinear()
-      .domain([0, yMax])
+      .domain(yDomain)
       .range([this.chartHeight, 0])
 
     let points = this.scatterContainer.selectAll('.point')
@@ -176,6 +186,8 @@ Scatterplot.defaultProps = {
     bottom: 50,
     right: 45
   },
+  xDomain: false,
+  yDomain: false,
   autoWidth: false,
   width: 640,
   height: 360,
@@ -196,6 +208,8 @@ Scatterplot.propTypes = {
   data: PropTypes.array,
   margin: PropTypes.object,
   autoWidth: PropTypes.bool,
+  xDomain: PropTypes.any,
+  yDomain: PropTypes.any,
   width: PropTypes.number,
   height: PropTypes.number,
   onClick: PropTypes.func,

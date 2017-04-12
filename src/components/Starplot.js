@@ -205,9 +205,9 @@ Starplot.defaultProps = {
   header: 'Name',
   accessors: [],
   labels: [],
-  includeGuidelines: true,
-  includeLabels: true,
-  tooltip: true,
+  includeGuidelines: false,
+  includeLabels: false,
+  tooltip: false,
   onMouseEnter: () => {}
 }
 
