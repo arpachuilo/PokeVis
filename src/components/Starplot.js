@@ -15,6 +15,8 @@ class Starplot extends React.Component {
       const tooltipFunction = (d) => {
         let tip = ''
         tip += d.Name + '</br>'
+        tip += 'Generation: ' + d.Generation + '</br>'
+        tip += 'Type: ' + d.Types.join(' ') + '</br>'
         tip += 'Attack: ' + d.Attack + '</br>'
         tip += 'Defense: ' + d.Defense + '</br>'
         tip += 'Special Attack: ' + d.Special_Attack + '</br>'
@@ -116,7 +118,6 @@ class Starplot extends React.Component {
         .attr('r', 2)
 
       let path = d3.radialLine()
-        // .radius(this.radius)
 
       let pathData = []
       let r = Math.PI / 2
@@ -136,11 +137,11 @@ class Starplot extends React.Component {
       // Add icon
       this.starContainer.append('svg:image')
         .attr('class', 'star-icon')
-        .attr('x', this.origin[0] - 40 / 2)
-        .attr('y', this.origin[1] - 40 / 2)
-        .attr('width', 40)
-        .attr('height', 40)
-        .attr('xlink:href', require('../data/sprites/' + props.datum['id'] + 'MS.png'))
+        .attr('x', this.origin[0] - 100 / 2)
+        .attr('y', this.origin[1] - 100 / 2)
+        .attr('width', 100)
+        .attr('height', 100)
+        .attr('xlink:href', require('../data/sprites/' + props.datum['id'].split('.')[0] + 'MS.png'))
         .on('mouseenter', (d, i) => {
           this.props.onMouseEnter(d3.event, this.props.datum)
           if (props.tooltip) {

@@ -14,9 +14,14 @@ class Scatterplot extends React.Component {
     if (props.tooltip) {
       const tooltipFunction = (d) => {
         let tip = ''
-        tip += d[props.idAccessor] + '</br>'
-        tip += props.xAccessor + ': ' + d[props.xAccessor] + '</br>'
-        tip += props.yAccessor + ': ' + d[props.yAccessor]
+        tip += d.Name + '</br>'
+        tip += 'Generation: ' + d.Generation + '</br>'
+        tip += 'Type: ' + d.Types.join(' ') + '<br>'
+        tip += 'Attack: ' + d.Attack + '</br>'
+        tip += 'Defense: ' + d.Defense + '</br>'
+        tip += 'Special Attack: ' + d.Special_Attack + '</br>'
+        tip += 'Special Defense: ' + d.Special_Defense + '</br>'
+        tip += 'Speed: ' + d.Speed + '</br>'
         return tip
       }
 
@@ -120,7 +125,6 @@ class Scatterplot extends React.Component {
             this.tip.hide(d3.event, d)
           }
         })
-        // .attr('r', (d) => this.props.radius)
         .attr('transform', 'translate(-20,-20)') // take into account icon size
         .attr('x', (d) => this.xScale(d[props.xAccessor]))
         .attr('y', (d) => this.yScale(d[props.yAccessor]))
@@ -128,7 +132,6 @@ class Scatterplot extends React.Component {
       .merge(points).transition().duration(400).ease(d3.easeLinear)
         .attr('x', (d) => this.xScale(d[props.xAccessor]))
         .attr('y', (d) => this.yScale(d[props.yAccessor]))
-        // .attr('r', (d) => this.props.radius)
 
     // Update axes
     let xAxis = d3.axisBottom(this.xScale)
