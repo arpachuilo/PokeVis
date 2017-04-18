@@ -16,6 +16,10 @@ class Redis {
     this.socket.emit('add', k, v)
   }
 
+  set (k, v) {
+    this.socket.emit('set', k, v)
+  }
+
   save () {
     this.socket.emit('save')
   }

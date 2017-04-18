@@ -8,6 +8,8 @@ import Scatterplot from '../components/Scatterplot'
 import Starplot from '../components/Starplot'
 import BarChart from '../components/BarChart'
 
+import questions from '../data/questions.json'
+
 import { toggleFilter, updateFilter, clearFilter } from '../redux/actions'
 
 class GridView extends React.Component {
@@ -17,8 +19,13 @@ class GridView extends React.Component {
     this.state = {
       xAxisValue: 'Attack',
       yAxisValue: 'Defense',
-      selectedPokemon: null
+      selectedPokemon: null,
+      response: '',
+      qID: 0
     }
+
+    this.submitResponse = this.submitResponse.bind(this)
+    this.responseChange = this.responseChange.bind(this)
 
     this.divMouseEnter = this.divMouseEnter.bind(this)
 
@@ -39,6 +46,31 @@ class GridView extends React.Component {
     this.generationMouseEnter = this.generationMouseEnter.bind(this)
   }
 
+  submitResponse (e) {
+    let response = this.state.response
+    let qID = this.state.qID
+
+    if (response !== '') {
+      redis.add('Response', {
+        date: +(new Date()),
+        qID: qID,
+        response: response
+      })
+
+      this.setState({
+        qID: this.state.qID + 1,
+        response: ''
+      })
+    }
+  }
+
+  // NOTE: not logging this interaction, not important
+  responseChange (e) {
+    this.setState({
+      response: e.target.value
+    })
+  }
+
   divMouseEnter (e) {
     redis.add('MouseEnter', {
       date: +(new Date()),
@@ -49,7 +81,8 @@ class GridView extends React.Component {
       aoi: e.currentTarget.id,
       target: 'null',
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
   }
 
@@ -63,7 +96,8 @@ class GridView extends React.Component {
       aoi: 'xAxisSelection',
       target: 'xAxis-null',
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
   }
 
@@ -77,7 +111,8 @@ class GridView extends React.Component {
       aoi: 'yAxisSelection',
       target: 'yAxis-null',
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
   }
 
@@ -93,7 +128,8 @@ class GridView extends React.Component {
         aoi: 'xAxisSelection',
         target: 'yAxis-' + value,
         selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-        filters: this.props.filters
+        filters: this.props.filters,
+        qID: this.state.qID
       })
     })
   }
@@ -110,7 +146,8 @@ class GridView extends React.Component {
         aoi: 'yAxisSelection',
         target: 'yAxis-' + value,
         selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-        filters: this.props.filters
+        filters: this.props.filters,
+        qID: this.state.qID
       })
     })
   }
@@ -125,7 +162,8 @@ class GridView extends React.Component {
       aoi: 'Scatterplot',
       target: datum.id,
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
   }
 
@@ -142,7 +180,8 @@ class GridView extends React.Component {
         aoi: 'Scatterplot',
         target: datum.id,
         selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-        filters: this.props.filters
+        filters: this.props.filters,
+        qID: this.state.qID
       })
     })
   }
@@ -158,7 +197,8 @@ class GridView extends React.Component {
       aoi: 'Starplot',
       target: datum.id,
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
   }
 
@@ -176,7 +216,8 @@ class GridView extends React.Component {
       aoi: 'TypeFilters',
       target: e.target.value,
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
 
     this.props.toggleFilter(filterObj)
@@ -192,7 +233,8 @@ class GridView extends React.Component {
       aoi: 'TypeFilters',
       target: e.target.value,
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
   }
 
@@ -210,7 +252,8 @@ class GridView extends React.Component {
       aoi: 'BarChart',
       target: (i + 1),
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
 
     this.props.toggleFilter(filterObj)
@@ -226,7 +269,8 @@ class GridView extends React.Component {
       aoi: 'BarChart',
       target: (i + 1),
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
-      filters: this.props.filters
+      filters: this.props.filters,
+      qID: this.state.qID
     })
   }
 
@@ -256,6 +300,16 @@ class GridView extends React.Component {
                   labels={Object.keys(this.props.scales)}
                   accessors={Object.keys(this.props.scales).map((k) => this.props.scales[k])} />
               </div>
+            </div>
+            <div className='row' id='QuestionArea' onMouseEnter={this.divMouseEnter}>
+              {
+                (this.state.qID !== questions.length)
+                  ? (<div>
+                    <span>{'Question ' + (this.state.qID + 1) + '/' + questions.length + ': ' + questions[this.state.qID]}</span><br />
+                    <textarea style={{width: '100%', height: '150px'}} value={this.state.response} onChange={this.responseChange} /><br />
+                    <input type='submit' value='Submit' onClick={this.submitResponse} />
+                  </div>) : (<span>Finished</span>)
+              }
             </div>
           </div>
           <div className='eight columns'>

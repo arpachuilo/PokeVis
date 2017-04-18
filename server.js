@@ -33,6 +33,10 @@ io.on('connection', function (socket) {
     save()
   })
 
+  socket.on('set', function (key, value) {
+    data[key] = value
+  })
+
   socket.on('save', function () {
     save()
   })
