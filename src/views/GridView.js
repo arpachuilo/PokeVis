@@ -48,6 +48,13 @@ class GridView extends React.Component {
     this.addGenerationFilter = this.addGenerationFilter.bind(this)
     this.generationMouseEnter = this.generationMouseEnter.bind(this)
     this.generationMouseLeave = this.generationMouseLeave.bind(this)
+
+    this.totalHeight = window.innerHeight
+    this.barChartHeight = this.totalHeight * 0.28
+    this.starplotHeight = this.totalHeight * 0.45
+    this.questionHeight = this.totalHeight * 0.15
+
+    this.scatterHeight = this.totalHeight * 0.83
   }
 
   submitResponse (e) {
@@ -309,7 +316,7 @@ class GridView extends React.Component {
           <div className='four columns'>
             <div className='row'>
               <div id='BarChart' onMouseEnter={this.divMouseEnter}>
-                <BarChart autoWidth tooltip height={300}
+                <BarChart autoWidth tooltip height={this.barChartHeight}
                   data={this.props.pokemon}
                   selected={this.props.filters.Generation}
                   onClick={this.addGenerationFilter}
@@ -323,7 +330,7 @@ class GridView extends React.Component {
             <div className='row'>
               <div id='Starplot' onMouseEnter={this.divMouseEnter}>
                 <Starplot autoWidth tooltip includeLabels includeGuidelines
-                  height={500}
+                  height={this.starplotHeight}
                   onMouseEnter={this.starplotMouseEnter}
                   datum={this.state.selectedPokemon}
                   labels={Object.keys(this.props.scales)}
@@ -335,7 +342,7 @@ class GridView extends React.Component {
                 (this.state.qID !== questions.length)
                   ? (<div>
                     <span>{'Question ' + (this.state.qID + 1) + '/' + questions.length + ': ' + questions[this.state.qID]}</span><br />
-                    <textarea style={{width: '100%', height: '150px'}} value={this.state.response} onChange={this.responseChange} /><br />
+                    <textarea style={{width: '100%', height: this.questionHeight + 'px'}} value={this.state.response} onChange={this.responseChange} /><br />
                     <input type='submit' value='Submit' onClick={this.submitResponse} />
                   </div>) : (<span>Finished</span>)
               }
@@ -343,7 +350,7 @@ class GridView extends React.Component {
           </div>
           <div className='eight columns'>
             <div id='Scatterplot' className='row' onMouseEnter={this.divMouseEnter}>
-              <Scatterplot autoWidth tooltip height={900}
+              <Scatterplot autoWidth tooltip height={this.scatterHeight}
                 onClick={this.setPokemon}
                 onMouseEnter={this.scatterMouseEnter}
                 data={this.props.filteredPokemon}
