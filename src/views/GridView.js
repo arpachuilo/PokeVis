@@ -21,7 +21,9 @@ class GridView extends React.Component {
       yAxisValue: 'Defense',
       selectedPokemon: null,
       response: '',
-      qID: 0
+      qID: 0,
+      highlightFilter: '',
+      highlightAccessor: 'Types'
     }
 
     this.submitResponse = this.submitResponse.bind(this)
@@ -41,9 +43,11 @@ class GridView extends React.Component {
 
     this.addTypeFilter = this.addTypeFilter.bind(this)
     this.typeMouseEnter = this.typeMouseEnter.bind(this)
+    this.typeMouseLeave = this.typeMouseLeave.bind(this)
 
     this.addGenerationFilter = this.addGenerationFilter.bind(this)
     this.generationMouseEnter = this.generationMouseEnter.bind(this)
+    this.generationMouseLeave = this.generationMouseLeave.bind(this)
   }
 
   submitResponse (e) {
@@ -224,6 +228,11 @@ class GridView extends React.Component {
   }
 
   typeMouseEnter (e) {
+    this.setState({
+      highlightFilter: e.target.value,
+      highlightAccessor: 'Types'
+    })
+
     redis.add('MouseEnter', {
       date: +(new Date()),
       x: e.pageX,
@@ -235,6 +244,13 @@ class GridView extends React.Component {
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
       filters: this.props.filters,
       qID: this.state.qID
+    })
+  }
+
+  typeMouseLeave (e) {
+    this.setState({
+      highlightFilter: '',
+      highlightAccessor: ''
     })
   }
 
@@ -260,6 +276,11 @@ class GridView extends React.Component {
   }
 
   generationMouseEnter (e, d, i) {
+    this.setState({
+      highlightFilter: i + 1,
+      highlightAccessor: 'Generation'
+    })
+
     redis.add('MouseEnter', {
       date: +(new Date()),
       x: e.pageX,
@@ -271,6 +292,13 @@ class GridView extends React.Component {
       selectedPokemon: this.state.selectedPokemon !== null ? this.state.selectedPokemon.id : null,
       filters: this.props.filters,
       qID: this.state.qID
+    })
+  }
+
+  generationMouseLeave (e, d, i) {
+    this.setState({
+      highlightFilter: '',
+      highlightAccessor: ''
     })
   }
 
@@ -286,6 +314,7 @@ class GridView extends React.Component {
                   selected={this.props.filters.Generation}
                   onClick={this.addGenerationFilter}
                   onMouseEnter={this.generationMouseEnter}
+                  onMouseLeave={this.generationMouseLeave}
                   xAccessor={'Generation'}
                   yLabel='# of Pokemon'
                   xLabel='Generation' />
@@ -318,6 +347,8 @@ class GridView extends React.Component {
                 onClick={this.setPokemon}
                 onMouseEnter={this.scatterMouseEnter}
                 data={this.props.filteredPokemon}
+                highlightFilter={this.state.highlightFilter}
+                highlightAccessor={this.state.highlightAccessor}
                 idAccessor='Name'
                 xAccessor={this.state.xAxisValue}
                 xDomain={this.props.scales[this.state.xAxisValue].domain()}
@@ -363,6 +394,7 @@ class GridView extends React.Component {
                     className={'button ' + type + ' ' + toggled}
                     onClick={this.addTypeFilter}
                     onMouseEnter={this.typeMouseEnter}
+                    onMouseLeave={this.typeMouseLeave}
                     value={type}>{type}</button>
                 })}
               </div>

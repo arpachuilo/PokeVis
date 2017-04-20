@@ -75,7 +75,7 @@ class BarChart extends React.Component {
     var keys = uniq(props.data.map((d) => d[props.xAccessor])).sort()
     this.xScale = d3.scaleBand()
       .domain(keys)
-      .range([0, this.chartWidth])
+      .rangeRound([0, this.chartWidth])
 
     var bins = []
     for (let i = 0; i < 6; i++) {
@@ -99,7 +99,7 @@ class BarChart extends React.Component {
 
     this.yScale = d3.scaleLinear()
       .domain([0, d3.max(bins, (d) => d.length)])
-      .range([this.chartHeight, 0])
+      .rangeRound([this.chartHeight, 0])
 
     let bars = this.barContainer.selectAll('.bar')
       .data(bins, (d, i) => {
@@ -122,7 +122,8 @@ class BarChart extends React.Component {
             this.tip.show(d3.event, d)
           }
         })
-        .on('mouseleave', (d) => {
+        .on('mouseleave', (d, i) => {
+          this.props.onMouseLeave(d3.event, d, i)
           if (props.tooltip) {
             this.tip.hide(d3.event, d)
           }
@@ -189,6 +190,7 @@ BarChart.defaultProps = {
   height: 220,
   onClick: () => {},
   onMouseEnter: () => {},
+  onMouseLeave: () => {},
   xLabel: '',
   yLabel: '',
   xAccessor: 'key',
@@ -204,6 +206,7 @@ BarChart.propTypes = {
   height: PropTypes.number,
   onClick: PropTypes.func,
   onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
   xLabel: PropTypes.string,
   yLabel: PropTypes.string,
   xAccessor: PropTypes.string,

@@ -104,7 +104,7 @@ class Scatterplot extends React.Component {
       .range([this.chartHeight, 0])
 
     let points = this.scatterContainer.selectAll('.point')
-      .data(props.data, (d) => d[props.idAccessor])
+      .data(props.data, (d) => (d[props.idAccessor] + props.highlightAccessor))
 
     points.exit().remove()
 
@@ -132,6 +132,27 @@ class Scatterplot extends React.Component {
       .merge(points).transition().duration(400).ease(d3.easeLinear)
         .attr('x', (d) => this.xScale(d[props.xAccessor]))
         .attr('y', (d) => this.yScale(d[props.yAccessor]))
+        .attr('opacity', (d) => {
+          var opacity = 1
+          if (props.highlightAccessor !== null) {
+            if (props.highlightFilter !== '') {
+              opacity = 0.3
+              // NOTE: Specific to arrays. make accessor a function in future
+              if (Array.isArray(d[props.highlightAccessor])) {
+                for (var i = 0; i < d[props.highlightAccessor].length; i++) {
+                  if (d[props.highlightAccessor][i] === props.highlightFilter) {
+                    opacity = 1
+                  }
+                }
+              } else {
+                if (d[props.highlightAccessor] === props.highlightFilter) {
+                  opacity = 1
+                }
+              }
+            }
+          }
+          return opacity
+        })
 
     // Update axes
     let xAxis = d3.axisBottom(this.xScale)
@@ -168,7 +189,9 @@ class Scatterplot extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {
     if (nextProps.data !== this.props.data ||
       nextProps.xAccessor !== this.props.xAccessor ||
-      nextProps.yAccessor !== this.props.yAccessor) {
+      nextProps.yAccessor !== this.props.yAccessor ||
+      nextProps.highlightAccessor !== this.props.highlightAccessor ||
+      nextProps.highlightFilter !== this.props.highlightFilter) {
       this.updateChart(nextProps, nextState)
     }
     return false
@@ -204,7 +227,9 @@ Scatterplot.defaultProps = {
   idAccessor: 'id',
   xAccessor: 'key',
   yAccessor: 'value',
-  tooltip: false
+  highlightAccessor: 'highlight',
+  tooltip: false,
+  highlightFilter: ''
 }
 
 Scatterplot.propTypes = {
@@ -225,7 +250,9 @@ Scatterplot.propTypes = {
   idAccessor: PropTypes.string,
   xAccessor: PropTypes.string,
   yAccessor: PropTypes.string,
-  tooltip: PropTypes.bool
+  highlightAccessor: PropTypes.string,
+  tooltip: PropTypes.bool,
+  highlightFilter: PropTypes.any
 }
 
 export default Scatterplot
